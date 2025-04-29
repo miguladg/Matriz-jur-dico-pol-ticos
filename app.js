@@ -6,6 +6,7 @@ window.onload = async function () {
   try {
     const response = await fetch(API_URL);
     datos = await response.json();
+    prepararAutocompletado();
   } catch (error) {
     document.getElementById('resultados').innerHTML = '<p>⚠️ Error al cargar los datos.</p>';
     console.error('Error al cargar datos:', error);
@@ -15,6 +16,7 @@ window.onload = async function () {
   const inputBusqueda = document.getElementById('busqueda');
   inputBusqueda.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
+      e.preventDefault();
       document.getElementById('botonBuscar').click();
     }
   });
@@ -24,6 +26,7 @@ function buscar() {
   const palabra = document.getElementById('busqueda').value.trim().toLowerCase();
   const contenedor = document.getElementById('resultados');
   contenedor.innerHTML = '';
+  document.getElementById('sugerencias').innerHTML = '';
 
   if (!palabra) {
     contenedor.innerHTML = '<p>⚠️ Por favor ingresa una palabra clave para buscar.</p>';
@@ -80,4 +83,35 @@ function toggleCita(idTexto, idBoton, textoCompleto) {
   const expandido = boton.innerText === 'Ver menos';
   span.innerText = expandido ? textoCompleto.substring(0, 300) + '...' : textoCompleto;
   boton.innerText = expandido ? 'Ver más...' : 'Ver menos';
+}
+
+// Función de autocompletado
+function prepararAutocompletado() {
+  const input = document.getElementById('busqueda');
+  const sugerenciasDiv = document.getElementById('sugerencias');
+
+  input.addEventListener('input', function () {
+    const texto = this.value.toLowerCase();
+    sugerenciasDiv.innerHTML = '';
+
+    if (texto.length < 2) return;
+
+    const sugerencias = datos
+      .flatMap(item => [item.nombre, item.tema, item.titulo1, item.subtitulo, item.titulo2, item.criterio, item.nucleo, item.palabras])
+      .filter(Boolean)
+      .filter(textoCampo => textoCampo.toLowerCase().includes(texto))
+      .slice(0, 10); // Máximo 10 sugerencias
+
+    sugerencias.forEach(s => {
+      const div = document.createElement('div');
+      div.className = 'autocomplete-suggestion';
+      div.textContent = s;
+      div.onclick = function () {
+        input.value = s;
+        sugerenciasDiv.innerHTML = '';
+        buscar();
+      };
+      sugerenciasDiv.appendChild(div);
+    });
+  });
 }
