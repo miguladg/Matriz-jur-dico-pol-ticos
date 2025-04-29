@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador Jurídico-Político</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      font-size: 14px;
+    }
+    h2 {
+      text-align: center;
+      color: #2c7be5;
+      font-size: 1.8rem;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    input {
+      background: #fff;
+      color: #000;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #2c7be5;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1a5ecc;
+    }
+    .resultado {
+      background-color: #111;
+      padding: 14px;
+      border-left: 4px solid #2c7be5;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .resultado h3 {
+      margin-top: 0;
+      color: #2c7be5;
+      font-size: 1.4rem;
+    }
+    .resultado p, a {
+      font-size: 1rem;
+      color: #ccc;
+    }
+    a {
+      text-decoration: none;
+      color: #2c7be5;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>📚 Buscador Jurídico-Político</h2>
+  <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave...">
+  <button onclick="buscar()">Buscar</button>
+
+  <div id="resultados"></div>
+
+  <script>
+    const API_URL = 'https://script.googleusercontent.com/a/macros/movilidadbogota.gov.co/echo?user_content_key=AehSKLhb5zuhgkeaZ9NjQreihoK2RyHwlZWsimYOXn4wO7nk66kj6fA7gCOc9HAJ04A5xONXiLlcReqBRF-9uHVL_W5lwx69bNulTVwD3n7GB_uRqerpOEx60OB2IesE6Oyd1egKm8Ai-Ccrz1l_olN07HGiREMAiN8-M78a1oDszW-wcaJc202licZSNtuLg7OUwhonyr-v4h8pCcxfqbTZUVhCCq8zWBjOAKA1v3zjZkxXG6QJMGjIlp38YYh5cpcS2Azj3Bq6WFX37M_IQx9UqLP1CPD2whybdnU0CJFzjClSKgukQLO_UNqEhRNyUgygIhem56Ra&lib=MkGBoayCfw7WB5Jg8ogz5i2yJe74qvHP_';
+
+    let datos = []; // Aquí guardaremos el JSON completo
+
+    // Cargar el JSON al abrir la página
+    window.onload = async function() {
+      try {
+        const response = await fetch(API_URL);
+        datos = await response.json();
+      } catch (error) {
+        document.getElementById('resultados').innerHTML = '<p>⚠️ Error al cargar los datos.</p>';
+        console.error('Error al cargar datos:', error);
+      }
+    };
+
+    // Función de búsqueda local
+    function buscar() {
+      const palabra = document.getElementById('busqueda').value.trim().toLowerCase();
+      const contenedor = document.getElementById('resultados');
+      contenedor.innerHTML = '';
+
+      if (!palabra) {
+        contenedor.innerHTML = '<p>⚠️ Por favor ingresa una palabra clave para buscar.</p>';
+        return;
+      }
+
+      const resultados = datos.filter(item => {
+        return (
+          (item.nombre && item.nombre.toLowerCase().includes(palabra)) ||
+          (item.tema && item.tema.toLowerCase().includes(palabra)) ||
+          (item.titulo1 && item.titulo1.toLowerCase().includes(palabra)) ||
+          (item.subtitulo && item.subtitulo.toLowerCase().includes(palabra)) ||
+          (item.titulo2 && item.titulo2.toLowerCase().includes(palabra)) ||
+          (item.criterio && item.criterio.toLowerCase().includes(palabra)) ||
+          (item.nucleo && item.nucleo.toLowerCase().includes(palabra)) ||
+          (item.descripcion && item.descripcion.toLowerCase().includes(palabra)) ||
+          (item.Cita_textual && item.Cita_textual.toLowerCase().includes(palabra)) ||
+          (item.palabras && item.palabras.toLowerCase().includes(palabra))
+        );
+      });
+
+      if (resultados.length === 0) {
+        contenedor.innerHTML = '<p>❌ No se encontraron resultados.</p>';
+        return;
+      }
+
+      resultados.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'resultado';
+        div.innerHTML = `
+          <h3>${r.nombre || 'Sin título'}</h3>
+          <p><strong>📄 Tipo:</strong> ${r.tipo || ''}</p>
+          <p><strong>📌 Tema:</strong> ${r.tema || ''}</p>
+          <p><strong>🔖 Título 1:</strong> ${r.titulo1 || ''}</p>
+          <p><strong>🔖 Subtítulo:</strong> ${r.subtitulo || ''}</p>
+          <p><strong>🔖 Título 2:</strong> ${r.titulo2 || ''}</p>
+          <p><strong>🔎 Criterio:</strong> ${r.criterio || ''}</p>
+          <p><strong>🔎 Núcleo:</strong> ${r.nucleo || ''}</p>
+          <p><strong>📑 Artículo:</strong> ${r.articulo || ''}</p>
+          <p><strong>📝 Aporte:</strong> ${r.descripcion || ''}</p>
+          <p><strong>📝 Cita:</strong> ${r.Cita_textual || ''}</p>
+          ${r.link ? `<p><a href="${r.link}" target="_blank">🔗 Ver documento</a></p>` : ''}
+        `;
+        contenedor.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
