@@ -33,7 +33,7 @@
       width: 100%;
       padding: 14px;
       margin-top: 14px;
-      margin-bottom: 26px;
+      margin-bottom: 10px;
       font-size: 1.3rem;
       border-radius: 6px;
       box-sizing: border-box;
@@ -51,6 +51,21 @@
     }
     button:hover {
       background: #1a5ecc;
+    }
+    .autocomplete-suggestions {
+      background: #222;
+      border: 1px solid #555;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 0;
+      border-radius: 5px;
+    }
+    .autocomplete-suggestion {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .autocomplete-suggestion:hover {
+      background: #444;
     }
     .resultado {
       background-color: #111;
@@ -86,7 +101,8 @@
 <body>
   <div class="contenedor">
     <h2>📚 Buscador Jurídico-Político</h2>
-    <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave...">
+    <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." autocomplete="off">
+    <div id="sugerencias" class="autocomplete-suggestions"></div>
     <button id="botonBuscar" onclick="buscar()">Buscar</button>
     <div id="resultados"></div>
   </div>
