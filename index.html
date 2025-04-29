@@ -9,15 +9,25 @@
       font-family: Arial, sans-serif;
       background-color: #000;
       color: #fff;
-      max-width: 900px;
-      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
       padding: 20px;
-      font-size: 18px; /* Aumentado */
+      font-size: 18px;
+    }
+    .contenedor {
+      max-width: 900px;
+      width: 100%;
     }
     h2 {
       text-align: center;
       color: #2c7be5;
-      font-size: 2.5rem; /* Aumentado */
+      font-size: 2.5rem;
+      margin-top: 0;
     }
     input, button {
       width: 100%;
@@ -54,13 +64,17 @@
       margin-top: 0;
       color: #2c7be5;
       font-size: 1.9rem;
+      text-align: left;
     }
     .resultado p, a {
       font-size: 1.3rem;
       color: #ccc;
-      text-align: justify;
+      text-align: left;
       white-space: normal;
       line-height: 1.6;
+    }
+    .justificado {
+      text-align: justify;
     }
     a {
       text-decoration: none;
@@ -70,10 +84,12 @@
   </style>
 </head>
 <body>
-  <h2>📚 Buscador Jurídico-Político</h2>
-  <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave...">
-  <button onclick="buscar()">Buscar</button>
-  <div id="resultados"></div>
+  <div class="contenedor">
+    <h2>📚 Buscador Jurídico-Político</h2>
+    <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave...">
+    <button id="botonBuscar" onclick="buscar()">Buscar</button>
+    <div id="resultados"></div>
+  </div>
 
   <script src="app.js"></script>
 </body>
