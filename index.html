@@ -12,20 +12,20 @@
       max-width: 800px;
       margin: auto;
       padding: 20px;
-      font-size: 14px;
+      font-size: 17px; /* antes 14px */
     }
     h2 {
       text-align: center;
       color: #2c7be5;
-      font-size: 1.8rem;
+      font-size: 2.2rem; /* antes 1.8rem */
     }
     input, button {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      font-size: 1rem;
-      border-radius: 5px;
+      padding: 12px; /* antes 10px */
+      margin-top: 12px;
+      margin-bottom: 24px;
+      font-size: 1.2rem; /* antes 1rem */
+      border-radius: 6px;
       box-sizing: border-box;
     }
     input {
@@ -44,19 +44,19 @@
     }
     .resultado {
       background-color: #111;
-      padding: 14px;
+      padding: 18px; /* antes 14px */
       border-left: 4px solid #2c7be5;
       border-radius: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 20px; /* antes 16px */
       box-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
     .resultado h3 {
       margin-top: 0;
       color: #2c7be5;
-      font-size: 1.4rem;
+      font-size: 1.7rem; /* antes 1.4rem */
     }
     .resultado p, a {
-      font-size: 1rem;
+      font-size: 1.2rem; /* antes 1rem */
       color: #ccc;
     }
     a {
@@ -77,9 +77,8 @@
   <script>
     const API_URL = 'https://script.googleusercontent.com/a/macros/movilidadbogota.gov.co/echo?user_content_key=AehSKLhb5zuhgkeaZ9NjQreihoK2RyHwlZWsimYOXn4wO7nk66kj6fA7gCOc9HAJ04A5xONXiLlcReqBRF-9uHVL_W5lwx69bNulTVwD3n7GB_uRqerpOEx60OB2IesE6Oyd1egKm8Ai-Ccrz1l_olN07HGiREMAiN8-M78a1oDszW-wcaJc202licZSNtuLg7OUwhonyr-v4h8pCcxfqbTZUVhCCq8zWBjOAKA1v3zjZkxXG6QJMGjIlp38YYh5cpcS2Azj3Bq6WFX37M_IQx9UqLP1CPD2whybdnU0CJFzjClSKgukQLO_UNqEhRNyUgygIhem56Ra&lib=MkGBoayCfw7WB5Jg8ogz5i2yJe74qvHP_';
 
-    let datos = []; // Aquí guardaremos el JSON completo
+    let datos = [];
 
-    // Cargar el JSON al abrir la página
     window.onload = async function() {
       try {
         const response = await fetch(API_URL);
@@ -90,7 +89,6 @@
       }
     };
 
-    // Función de búsqueda local
     function buscar() {
       const palabra = document.getElementById('busqueda').value.trim().toLowerCase();
       const contenedor = document.getElementById('resultados');
