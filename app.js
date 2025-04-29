@@ -10,6 +10,14 @@ window.onload = async function () {
     document.getElementById('resultados').innerHTML = '<p>⚠️ Error al cargar los datos.</p>';
     console.error('Error al cargar datos:', error);
   }
+
+  // Activar búsqueda con Enter
+  const inputBusqueda = document.getElementById('busqueda');
+  inputBusqueda.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      document.getElementById('botonBuscar').click();
+    }
+  });
 };
 
 function buscar() {
@@ -56,8 +64,8 @@ function buscar() {
       <p><strong>🔎 Criterio:</strong> ${r.criterio || ''}</p>
       <p><strong>🔎 Núcleo:</strong> ${r.nucleo || ''}</p>
       <p><strong>📑 Artículo:</strong> ${r.articulo || ''}</p>
-      <p><strong>📝 Aporte:</strong> ${r.descripcion || ''}</p>
-      <p><strong>📝 Cita:</strong> <span id="${citaId}">${citaCorta}</span>
+      <p><strong>📝 Aporte:</strong> <span class="justificado">${r.descripcion || ''}</span></p>
+      <p><strong>📝 Cita:</strong> <span id="${citaId}" class="justificado">${citaCorta}</span>
         ${mostrarBoton ? `<br><button id="${botonId}" onclick="toggleCita('${citaId}', '${botonId}', \`${citaCompleta.replace(/`/g, '\\`')}\`)">Ver más...</button>` : ''}
       </p>
       ${r.link ? `<p><a href="${r.link}" target="_blank">🔗 Ver documento</a></p>` : ''}
