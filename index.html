@@ -25,9 +25,14 @@
     }
     h2 {
       text-align: center;
-      color: #5c782a; /* Cambiado a verde */
+      color: #5c782a;
       font-size: 2.5rem;
       margin-top: 0;
+    }
+    img {
+      max-width: 150px;
+      margin: 0 auto 10px;
+      display: block;
     }
     input, button {
       width: 100%;
@@ -44,13 +49,13 @@
       border: 1px solid #ccc;
     }
     button {
-      background: #5c782a; /* Cambiado a verde */
+      background: #5c782a;
       color: #fff;
       border: none;
       cursor: pointer;
     }
     button:hover {
-      background: #47601f; /* Un tono más oscuro del verde */
+      background: #47601f;
     }
     .autocomplete-suggestions {
       background: #222;
@@ -70,14 +75,14 @@
     .resultado {
       background-color: #111;
       padding: 20px;
-      border-left: 5px solid #5c782a; /* Cambiado a verde */
+      border-left: 5px solid #5c782a;
       border-radius: 8px;
       margin-bottom: 24px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
     .resultado h3 {
       margin-top: 0;
-      color: #5c782a; /* Cambiado a verde */
+      color: #5c782a;
       font-size: 1.9rem;
       text-align: left;
     }
@@ -89,18 +94,21 @@
       line-height: 1.6;
     }
     .justificado {
-      text-align: justify; /* Sólo en cita y aporte */
+      text-align: justify;
     }
     a {
       text-decoration: none;
-      color: #5c782a; /* Cambiado a verde */
+      color: #5c782a;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
   <div class="contenedor">
-    <h2>📚Matriz Jurídico-Político</h2>
+    <!-- Logo cargado localmente -->
+    <img src="logo.png" alt="Logo">
+    
+    <h2>📚 Buscador Jurídico-Político</h2>
     <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." autocomplete="off">
     <div id="sugerencias" class="autocomplete-suggestions"></div>
     <button id="botonBuscar" onclick="buscar()">Buscar</button>
