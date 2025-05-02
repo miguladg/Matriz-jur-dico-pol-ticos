@@ -29,9 +29,12 @@
       font-size: 2.5rem;
       margin-top: 0;
     }
-    img {
-      max-width: 150px;
-      margin: 0 auto 10px;
+    .logo-principal,
+    .logo-secundario {
+      width: 100%; /* Ocupa todo el ancho del buscador */
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
       display: block;
     }
     input, button {
@@ -104,14 +107,21 @@
   </style>
 </head>
 <body>
-<div class="contenedor">
-  <img src="logo.png" alt="Logo" style="width: 100%; height: auto; margin-bottom: 20px;">
-  <h2>📚 Buscador Jurídico-Político</h2>
-  <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." autocomplete="off">
-  <div id="sugerencias" class="autocomplete-suggestions"></div>
-  <button id="botonBuscar" onclick="buscar()">Buscar</button>
-  <div id="resultados"></div>
-</div>
+  <div class="contenedor">
+    <!-- Imagen principal superior -->
+    <img src="logo.png" alt="Logo principal" class="logo-principal">
+    
+    <h2>📚 Buscador Jurídico-Político</h2>
+    <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." autocomplete="off">
+    <div id="sugerencias" class="autocomplete-suggestions"></div>
+    <button id="botonBuscar" onclick="buscar()">Buscar</button>
+
+    <!-- Imagen secundaria debajo del botón -->
+    <img src="logo-secundario.png" alt="Logo adicional" class="logo-secundario">
+
+    <div id="resultados"></div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
