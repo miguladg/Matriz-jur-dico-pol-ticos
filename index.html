@@ -121,7 +121,6 @@
       font-weight: bold;
     }
 
-    /* Media Queries para responsividad */
     @media (max-width: 768px) {
       h2 {
         font-size: 2rem;
@@ -152,26 +151,28 @@
     <img src="logo.png" alt="Logo principal" class="logo-principal">
     
     <h2>📚 Matriz Jurídico-Político</h2>
-    <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." autocomplete="off">
+
+    <!-- Campo de búsqueda con datalist -->
+    <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." list="palabrasClaves" autocomplete="off">
+
+    <!-- Desplegable de palabras clave -->
+    <datalist id="palabrasClaves"></datalist>
+
     <div id="sugerencias" class="autocomplete-suggestions"></div>
     <button id="botonBuscar" onclick="buscar()">Buscar</button>
 
     <div id="resultados"></div>
   </div>
-  <div id="resultados"></div>
-</div>
 
-<footer style="margin-top: auto; width: 100%; background-color: #111; padding: 20px 0; text-align: center; color: #ccc; font-size: 0.9rem;">
-  <div class="contenedor">
-    <p>&copy; 2025 Buscador Jurídico-Político. Todos los derechos reservados.</p>
-    <p>Desarrollado por el equipo de Innovación Legal y Política</p>
-    <p><a href="mailto:contacto@ejemplo.com">✉️ contacto@ejemplo.com</a></p>
-  </div>
-</footer>
+  <footer style="margin-top: auto; width: 100%; background-color: #000; padding: 20px 0; text-align: center; color: #ccc; font-size: 0.9rem;">
+    <div class="contenedor">
+      <p>&copy; 2025 Buscador Jurídico-Político. Todos los derechos reservados.</p>
+      <p>Desarrollado por el equipo de Innovación Legal y Política</p>
+      <p><a href="mailto:contacto@ejemplo.com">✉️ contacto@ejemplo.com</a></p>
+    </div>
+  </footer>
 
-<script src="app.js"></script>
-</body>
-
+  <!-- Script de funcionalidad -->
   <script src="app.js"></script>
 </body>
 </html>
