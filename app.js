@@ -12,9 +12,7 @@ window.onload = async function () {
     console.error('Error al cargar datos:', error);
   }
 
-  // Activar búsqueda con Enter
-  const inputBusqueda = document.getElementById('busqueda');
-  inputBusqueda.addEventListener('keypress', function (e) {
+  document.getElementById('busqueda').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
       e.preventDefault();
       document.getElementById('botonBuscar').click();
@@ -26,7 +24,6 @@ function buscar() {
   const palabra = document.getElementById('busqueda').value.trim().toLowerCase();
   const contenedor = document.getElementById('resultados');
   contenedor.innerHTML = '';
-  document.getElementById('sugerencias').innerHTML = '';
 
   if (!palabra) {
     contenedor.innerHTML = '<p>⚠️ Por favor ingresa una palabra clave para buscar.</p>';
@@ -86,17 +83,15 @@ function toggleCita(idTexto, idBoton, textoCompleto) {
 }
 
 function prepararDatalist() {
-  const datalist = document.createElement('datalist');
-  datalist.id = 'palabrasClaves';
-  document.body.appendChild(datalist);
-  document.getElementById('busqueda').setAttribute('list', 'palabrasClaves');
-
+  const datalist = document.getElementById('palabrasClaves');
   const palabrasSet = new Set();
 
   datos.forEach(item => {
     if (item.palabras) {
-      const palabras = item.palabras.split(',').map(p => p.trim());
-      palabras.forEach(palabra => palabrasSet.add(palabra));
+      item.palabras.split('\n').forEach(p => {
+        const palabra = p.trim();
+        if (palabra) palabrasSet.add(palabra);
+      });
     }
   });
 
