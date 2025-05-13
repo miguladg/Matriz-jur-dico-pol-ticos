@@ -6,7 +6,7 @@ window.onload = async function () {
   try {
     const response = await fetch(API_URL);
     datos = await response.json();
-    prepararAutocompletado();
+    prepararDatalist();
   } catch (error) {
     document.getElementById('resultados').innerHTML = '<p>⚠️ Error al cargar los datos.</p>';
     console.error('Error al cargar datos:', error);
@@ -85,33 +85,24 @@ function toggleCita(idTexto, idBoton, textoCompleto) {
   boton.innerText = expandido ? 'Ver más...' : 'Ver menos';
 }
 
-// Función de autocompletado
-function prepararAutocompletado() {
-  const input = document.getElementById('busqueda');
-  const sugerenciasDiv = document.getElementById('sugerencias');
+function prepararDatalist() {
+  const datalist = document.createElement('datalist');
+  datalist.id = 'palabrasClaves';
+  document.body.appendChild(datalist);
+  document.getElementById('busqueda').setAttribute('list', 'palabrasClaves');
 
-  input.addEventListener('input', function () {
-    const texto = this.value.toLowerCase();
-    sugerenciasDiv.innerHTML = '';
+  const palabrasSet = new Set();
 
-    if (texto.length < 2) return;
+  datos.forEach(item => {
+    if (item.palabras) {
+      const palabras = item.palabras.split(',').map(p => p.trim());
+      palabras.forEach(palabra => palabrasSet.add(palabra));
+    }
+  });
 
-    const sugerencias = datos
-      .flatMap(item => [item.nombre, item.tema, item.titulo1, item.subtitulo, item.titulo2, item.criterio, item.nucleo, item.palabras])
-      .filter(Boolean)
-      .filter(textoCampo => textoCampo.toLowerCase().includes(texto))
-      .slice(0, 10); // Máximo 10 sugerencias
-
-    sugerencias.forEach(s => {
-      const div = document.createElement('div');
-      div.className = 'autocomplete-suggestion';
-      div.textContent = s;
-      div.onclick = function () {
-        input.value = s;
-        sugerenciasDiv.innerHTML = '';
-        buscar();
-      };
-      sugerenciasDiv.appendChild(div);
-    });
+  [...palabrasSet].sort().forEach(palabra => {
+    const option = document.createElement('option');
+    option.value = palabra;
+    datalist.appendChild(option);
   });
 }
