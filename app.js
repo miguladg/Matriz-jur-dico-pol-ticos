@@ -46,13 +46,13 @@ function buscar() {
     div.className = 'resultado';
 
     const citaCompleta = r.Cita_textual || '';
-    const citaCorta = citaCompleta.length > 300
-      ? citaCompleta.substring(0, 300) + '...'
+    const citaCorta = citaCompleta.length > 200
+      ? citaCompleta.substring(0, 200) + '...'
       : citaCompleta;
 
     const citaId = `cita-${index}`;
     const botonId = `boton-${index}`;
-    const mostrarBoton = citaCompleta.length > 300;
+    const mostrarBoton = citaCompleta.length > 200;
 
     div.innerHTML = `
       <h3>${r.nombre || 'Sin título'}</h3>
@@ -78,7 +78,7 @@ function toggleCita(idTexto, idBoton, textoCompleto) {
   const span = document.getElementById(idTexto);
   const boton = document.getElementById(idBoton);
   const expandido = boton.innerText === 'Ver menos';
-  span.innerText = expandido ? textoCompleto.substring(0, 300) + '...' : textoCompleto;
+  span.innerText = expandido ? textoCompleto.substring(0, 200) + '...' : textoCompleto;
   boton.innerText = expandido ? 'Ver más...' : 'Ver menos';
 }
 
