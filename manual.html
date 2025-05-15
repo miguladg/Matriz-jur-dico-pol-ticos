@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual de Usuario – Buscador Jurídico-Político</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.7;
+    }
+
+    .contenedor {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1, h2, h3 {
+      color: #a2d149;
+    }
+
+    a {
+      color: #5c782a;
+      text-decoration: none;
+    }
+
+    code {
+      background-color: #111;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    .icono {
+      font-weight: bold;
+    }
+
+    .seccion {
+      margin-bottom: 40px;
+    }
+
+    .tabla {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .tabla th, .tabla td {
+      border: 1px solid #666;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .tabla th {
+      background-color: #222;
+      color: #a2d149;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>📘 Manual de Usuario – Buscador Jurídico-Político</h1>
+
+    <div class="seccion">
+      <h2>📌 Descripción general</h2>
+      <p>
+        El <strong>Buscador Jurídico-Político</strong> es una herramienta web que facilita la consulta de contenidos legales, políticos y normativos. Su objetivo es permitir la búsqueda eficiente en una base de datos alimentada desde una hoja de cálculo de Google Sheets.
+      </p>
+    </div>
+
+    <div class="seccion">
+      <h2>🧭 ¿Cómo acceder?</h2>
+      <p>Solo necesitas un navegador y conexión a internet. Accede a la herramienta a través de su enlace web.</p>
+    </div>
+
+    <div class="seccion">
+      <h2>🖥️ Estructura de la interfaz</h2>
+      <ul>
+        <li><span class="icono">📚</span> <strong>Título:</strong> Muestra el nombre del sistema.</li>
+        <li><span class="icono">🔍</span> <strong>Campo de búsqueda:</strong> Escribe una palabra clave.</li>
+        <li><span class="icono">🟩</span> <strong>Botón “Buscar”:</strong> Ejecuta la consulta.</li>
+        <li><span class="icono">🕒</span> <strong>Última actualización:</strong> Fecha reciente del contenido.</li>
+        <li><span class="icono">📄</span> <strong>Zona de resultados:</strong> Listado de coincidencias.</li>
+        <li><span class="icono">⚙️</span> <strong>Pie de página:</strong> Información del equipo desarrollador.</li>
+      </ul>
+    </div>
+
+    <div class="seccion">
+      <h2>🔍 ¿Cómo usar la herramienta?</h2>
+      <ol>
+        <li>Escribe una palabra clave en el campo de búsqueda.</li>
+        <li>Presiona <strong>Enter</strong> o haz clic en <strong>“Buscar”</strong>.</li>
+        <li>Revisa los resultados desplegados.</li>
+        <li>Haz clic en <strong>“Ver más...”</strong> para expandir citas largas.</li>
+      </ol>
+    </div>
+
+    <div class="seccion">
+      <h2>⚙️ Funcionamiento técnico</h2>
+      <p>La información se gestiona desde Google Sheets y se conecta mediante Google Apps Script, el cual:</p>
+      <ul>
+        <li>Entrega datos en formato <code>JSON</code>.</li>
+        <li>Responde a peticiones web.</li>
+        <li>Permite obtener el último registro o la fecha de modificación.</li>
+      </ul>
+    </div>
+
+    <div class="seccion">
+      <h2>❗ Posibles errores</h2>
+      <table class="tabla">
+        <tr>
+          <th>Problema</th>
+          <th>Causa</th>
+          <th>Solución</th>
+        </tr>
+        <tr>
+          <td>⚠️ Error al cargar los datos</td>
+          <td>Fallo en la conexión con Google Script</td>
+          <td>Verifica que el script esté bien desplegado y que tienes internet</td>
+        </tr>
+        <tr>
+          <td>❌ No se encontraron resultados</td>
+          <td>Palabra clave no existente</td>
+          <td>Prueba con un término más general</td>
+        </tr>
+        <tr>
+          <td>Cita cortada</td>
+          <td>Texto largo</td>
+          <td>Haz clic en “Ver más...” para expandirla</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="seccion">
+      <h2>📞 Soporte</h2>
+      <p>Para asistencia técnica, puedes escribir a: <a href="mailto:contacto@ejemplo.com">✉️ contacto@ejemplo.com</a></p>
+    </div>
+
+    <footer>
+      &copy; 2025 Buscador Jurídico-Político – Todos los derechos reservados.
+    </footer>
+  </div>
+</body>
+</html>
