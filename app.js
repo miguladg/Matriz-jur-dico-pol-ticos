@@ -1,81 +1,103 @@
-const HOJA_ID = '1X05lwQReZFPxpAVqVB7oREFhjz5WnvAsFpXrttoWVQY';
-const NOMBRE_HOJA = 'Matriz jurídico-políticos';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyZrl9ZfmqSa9BBJKmCVr9nUhfzwFLbM-32jIR16GabkWvHnzuWT8BUpN6WHGEeOOSmpQ/exec';
 
-/**
- * Punto de entrada HTTP GET
- */
-function doGet(e) {
-  if (e && e.parameter) {
-    if (e.parameter.ultimo === 'true') {
-      return respuestaJson(obtenerUltimoDato());
-    } else if (e.parameter.fecha === 'true') {
-      return respuestaJson({ ultimaActualizacion: obtenerFechaUltimaModificacion() });
+let datos = [];
+
+window.onload = async function () {
+  try {
+    const response = await fetch(API_URL);
+    datos = await response.json();
+    prepararDatalist();
+  } catch (error) {
+    document.getElementById('resultados').innerHTML = '<p>⚠️ Error al cargar los datos.</p>';
+    console.error('Error al cargar datos:', error);
+  }
+
+  document.getElementById('busqueda').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('botonBuscar').click();
     }
+  });
+};
+
+function buscar() {
+  const palabra = document.getElementById('busqueda').value.trim().toLowerCase();
+  const contenedor = document.getElementById('resultados');
+  contenedor.innerHTML = '';
+
+  if (!palabra) {
+    contenedor.innerHTML = '<p>⚠️ Por favor ingresa una palabra clave para buscar.</p>';
+    return;
   }
 
-  return respuestaJson(obtenerTodaLaMatriz());
-}
+  const resultados = datos.filter(item =>
+    Object.values(item).some(valor =>
+      typeof valor === 'string' && valor.toLowerCase().includes(palabra)
+    )
+  );
 
-/**
- * Devuelve todas las filas de la hoja de cálculo
- */
-function obtenerTodaLaMatriz() {
-  const hoja = SpreadsheetApp.openById(HOJA_ID).getSheetByName(NOMBRE_HOJA);
-  const datos = hoja.getDataRange().getValues();
-  const resultados = [];
-
-  for (let i = 2; i < datos.length; i++) { // Saltar encabezados (fila 3 en adelante)
-    const fila = datos[i];
-    resultados.push(procesarFila(fila));
+  if (resultados.length === 0) {
+    contenedor.innerHTML = '<p>❌ No se encontraron resultados.</p>';
+    return;
   }
 
-  return resultados;
+  resultados.forEach((r, index) => {
+    const div = document.createElement('div');
+    div.className = 'resultado';
+
+    const citaCompleta = r.Cita_textual || '';
+    const citaCorta = citaCompleta.length > 200
+      ? citaCompleta.substring(0, 200) + '...'
+      : citaCompleta;
+
+    const citaId = `cita-${index}`;
+    const botonId = `boton-${index}`;
+    const mostrarBoton = citaCompleta.length > 200;
+
+    div.innerHTML = `
+      <h3>${r.nombre || 'Sin título'}</h3>
+      <p><strong>📄 Tipo:</strong> ${r.tipo || ''}</p>
+      <p><strong>📌 Tema:</strong> ${r.tema || ''}</p>
+      <p><strong>🔖 Título 1:</strong> ${r.titulo1 || ''}</p>
+      <p><strong>🔖 Subtítulo:</strong> ${r.subtitulo || ''}</p>
+      <p><strong>🔖 Título 2:</strong> ${r.titulo2 || ''}</p>
+      <p><strong>🔎 Criterio:</strong> ${r.criterio || ''}</p>
+      <p><strong>🔎 Núcleo:</strong> ${r.nucleo || ''}</p>
+      <p><strong>📑 Artículo:</strong> ${r.articulo || ''}</p>
+      <p><strong>📝 Aporte:</strong> <span class="justificado">${r.descripcion || ''}</span></p>
+      <p><strong>📝 Cita:</strong> <span id="${citaId}" class="justificado">${citaCorta}</span>
+        ${mostrarBoton ? `<br><button id="${botonId}" onclick="toggleCita('${citaId}', '${botonId}', \`${citaCompleta.replace(/`/g, '\\`')}\`)">Ver más...</button>` : ''}
+      </p>
+      ${r.link ? `<p><a href="${r.link}" target="_blank">🔗 Ver documento</a></p>` : ''}
+    `;
+    contenedor.appendChild(div);
+  });
 }
 
-/**
- * Devuelve solo la última fila con datos
- */
-function obtenerUltimoDato() {
-  const hoja = SpreadsheetApp.openById(HOJA_ID).getSheetByName(NOMBRE_HOJA);
-  const ultimaFila = hoja.getLastRow();
-  const fila = hoja.getRange(ultimaFila, 1, 1, hoja.getLastColumn()).getValues()[0];
-  return procesarFila(fila);
+function toggleCita(idTexto, idBoton, textoCompleto) {
+  const span = document.getElementById(idTexto);
+  const boton = document.getElementById(idBoton);
+  const expandido = boton.innerText === 'Ver menos';
+  span.innerText = expandido ? textoCompleto.substring(0, 200) + '...' : textoCompleto;
+  boton.innerText = expandido ? 'Ver más...' : 'Ver menos';
 }
 
-/**
- * Devuelve la fecha de la última actualización del archivo
- */
-function obtenerFechaUltimaModificacion() {
-  const archivo = DriveApp.getFileById(HOJA_ID);
-  return archivo.getLastUpdated();
-}
+function prepararDatalist() {
+  const datalist = document.getElementById('palabrasClaves');
+  const palabrasSet = new Set();
 
-/**
- * Procesa una fila individual a formato de objeto
- */
-function procesarFila(fila) {
-  return {
-    tema: fila[0],           // Columna A
-    tipo: fila[1],           // Columna B
-    nombre: fila[2],         // Columna C
-    link: fila[3],           // Columna D
-    articulo: fila[4],       // Columna E
-    nucleo: fila[5],         // Columna F
-    titulo1: fila[9],        // Columna J
-    subtitulo: fila[10],     // Columna K
-    titulo2: fila[11],       // Columna L
-    criterio: fila[12],      // Columna M
-    Cita_textual: fila[14],  // Columna O
-    descripcion: fila[15],   // Columna P
-    palabras: fila[16]       // Columna Q
-  };
-}
+  datos.forEach(item => {
+    if (item.palabras) {
+      item.palabras.split('\n').forEach(p => {
+        const palabra = p.trim();
+        if (palabra) palabrasSet.add(palabra);
+      });
+    }
+  });
 
-/**
- * Devuelve una respuesta en formato JSON
- */
-function respuestaJson(datos) {
-  return ContentService
-    .createTextOutput(JSON.stringify(datos))
-    .setMimeType(ContentService.MimeType.JSON);
+  [...palabrasSet].sort().forEach(palabra => {
+    const option = document.createElement('option');
+    option.value = palabra;
+    datalist.appendChild(option);
+  });
 }
