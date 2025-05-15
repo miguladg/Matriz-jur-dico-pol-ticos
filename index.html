@@ -38,7 +38,7 @@
       text-align: center;
       color: var(--verde);
       font-size: 2.5rem;
-      margin: 0 0 20px;
+      margin: 0 0 10px;
     }
 
     .logo-principal {
@@ -47,6 +47,17 @@
       height: auto;
       margin-bottom: 20px;
       display: block;
+    }
+
+    .enlace-manual {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .enlace-manual a {
+      color: var(--verde-claro);
+      font-size: 1rem;
+      text-decoration: none;
     }
 
     input, button {
@@ -158,12 +169,15 @@
 
     <h2>📚 Matriz Jurídico-Político</h2>
 
+    <div class="enlace-manual">
+      <a href="manual.html" target="_blank">📘 Manual de Usuario</a>
+    </div>
+
     <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." list="palabrasClaves" autocomplete="off">
     <datalist id="palabrasClaves"></datalist>
     <div id="sugerencias" class="autocomplete-suggestions"></div>
     <button id="botonBuscar" onclick="buscar()">Buscar</button>
 
-    <!-- Fecha de última actualización -->
     <div id="ultimaFecha" style="text-align: center; color: #aaa; margin: 10px 0; font-size: 0.95rem;">
       Última actualización: <span id="fechaTexto">cargando...</span>
     </div>
@@ -174,7 +188,7 @@
   <footer style="margin-top: auto; width: 100%; background-color: #000; padding: 20% 20%; text-align: center; color: #ccc; font-size: 0.9rem;">
     <div class="contenedor" style="max-width: 900px; margin: auto;">
       <p>&copy; 2025 Buscador Jurídico-Político. Todos los derechos reservados.</p>
-      <p>Desarrollado por el equipo de CAPSTON: Fortalecimiento de los procedimientos para la adopción de las medidas de protección a las víctimas testigos y demás intervinientes con ocasión a la implementación del acuerdo de paz a cargo del grupo de protección de la unidad de investigación acusación de la justicia especial para la paz</p>
+      <p>Desarrollado por el equipo de Innovación Legal y Política: Fortalecimiento de los procedimientos para la adopción de las medidas de protección a las víctimas testigos y demás intervinientes con ocasión a la implementación del acuerdo de paz a cargo del grupo de protección de la unidad de investigación acusación de la justicia especial para la paz</p>
       <p>Creadores:</p>
       <p>
         Cabrera Nossa Irene Alejandra – Directora<br>
@@ -189,7 +203,6 @@
     </div>
   </footer>
 
-  <!-- Script de búsqueda y fecha -->
   <script src="app.js"></script>
   <script>
     const FECHA_API_URL = 'https://script.google.com/macros/s/AKfycbyZrl9ZfmqSa9BBJKmCVr9nUhfzwFLbM-32jIR16GabkWvHnzuWT8BUpN6WHGEeOOSmpQ/exec?fecha=true';
