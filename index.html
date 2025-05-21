@@ -43,10 +43,12 @@
 
     .logo-principal {
       width: 100%;
-      max-width: 100%;
+      max-width: 60%;
       height: auto;
       margin-bottom: 20px;
       display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .enlace-manual {
@@ -54,10 +56,24 @@
       margin-bottom: 20px;
     }
 
-    .enlace-manual a {
-      color: var(--verde-claro);
-      font-size: 1rem;
+    .boton-manual {
+      display: inline-block;
+      background-color: var(--verde-claro);
+      color: #000;
       text-decoration: none;
+      font-size: 1.2rem;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 50%;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      transition: background-color 0.3s ease;
+    }
+
+    .boton-manual:hover {
+      background-color: #8abf3d;
     }
 
     input, button {
@@ -169,10 +185,6 @@
 
     <h2>📚 Matriz Jurídico-Político</h2>
 
-    <div class="enlace-manual">
-      <a href="manual.html" target="_blank">📘 Manual de Usuario</a>
-    </div>
-
     <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." list="palabrasClaves" autocomplete="off">
     <datalist id="palabrasClaves"></datalist>
     <div id="sugerencias" class="autocomplete-suggestions"></div>
@@ -183,6 +195,10 @@
     </div>
 
     <div id="resultados"></div>
+
+    <div class="enlace-manual">
+      <a href="manual.html" target="_blank" class="boton-manual" title="Manual de Usuario">📘</a>
+    </div>
   </div>
 
   <footer style="margin-top: auto; width: 100%; background-color: #000; padding: 20% 20%; text-align: center; color: #ccc; font-size: 0.9rem;">
