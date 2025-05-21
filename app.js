@@ -66,7 +66,7 @@ function buscar() {
       <p><strong>📑 Artículo:</strong> ${r.articulo || ''}</p>
       <p><strong>📝 Aporte:</strong> <span class="justificado">${r.descripcion || ''}</span></p>
       <p><strong>📝 Cita:</strong> <span id="${citaId}" class="justificado">${citaCorta}</span>
-        ${mostrarBoton ? `<br><button id="${botonId}" onclick="toggleCita('${citaId}', '${botonId}', \`${citaCompleta.replace(/`/g, '\\`')}\`)">Ver más...</button>` : ''}
+        ${mostrarBoton ? `<br><button id="${botonId}" data-texto="${encodeURIComponent(citaCompleta)}" onclick="toggleCita('${citaId}', '${botonId}')">Ver más...</button>` : ''}
       </p>
       ${r.link ? `<p><a href="${r.link}" target="_blank">🔗 Ver documento</a></p>` : ''}
     `;
@@ -74,10 +74,12 @@ function buscar() {
   });
 }
 
-function toggleCita(idTexto, idBoton, textoCompleto) {
+function toggleCita(idTexto, idBoton) {
   const span = document.getElementById(idTexto);
   const boton = document.getElementById(idBoton);
+  const textoCompleto = decodeURIComponent(boton.dataset.texto);
   const expandido = boton.innerText === 'Ver menos';
+
   span.innerText = expandido ? textoCompleto.substring(0, 200) + '...' : textoCompleto;
   boton.innerText = expandido ? 'Ver más...' : 'Ver menos';
 }
