@@ -3,79 +3,243 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manual de Usuario</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>Buscador Jurídico-Político</title>
   <style>
+    :root {
+      --verde: #5c782a;
+      --verde-claro: #a2d149;
+      --fondo: #000;
+      --texto-claro: #fff;
+      --texto-suave: #ccc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #000;
-      color: #fff;
       font-family: Arial, sans-serif;
+      background-color: var(--fondo);
+      color: var(--texto-claro);
       margin: 0;
       padding: 20px;
-      line-height: 1.6;
-    }
-
-    h1, h2, h3 {
-      color: #a2d149;
-    }
-
-    a {
-      color: #a2d149;
-      text-decoration: underline;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
 
     .contenedor {
+      width: 100%;
       max-width: 900px;
-      margin: auto;
     }
 
-    .boton-volver {
+    h2 {
+      text-align: center;
+      color: var(--verde);
+      font-size: 2.5rem;
+      margin: 0 0 10px;
+    }
+
+    .logo-principal {
+      width: 100%;
+      max-width: 60%;
+      height: auto;
+      margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .enlace-manual {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+
+    .boton-manual {
       display: inline-block;
-      margin-top: 40px;
-      padding: 12px 20px;
-      background-color: #a2d149;
+      background-color: var(--verde-claro);
       color: #000;
       text-decoration: none;
-      border-radius: 25px;
+      font-size: 1rem;
+      padding: 10px 16px;
+      border-radius: 20px;
       font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
       transition: background-color 0.3s ease;
     }
 
-    .boton-volver:hover {
+    .boton-manual:hover {
       background-color: #8abf3d;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+
+    input {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: var(--verde);
+      color: var(--texto-claro);
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #47601f;
+    }
+
+    .autocomplete-suggestions {
+      background: #222;
+      border: 1px solid #555;
+      max-height: 150px;
+      overflow-y: auto;
+      border-radius: 5px;
+    }
+
+    .autocomplete-suggestion {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .autocomplete-suggestion:hover {
+      background: #444;
+    }
+
+    datalist option {
+      color: var(--verde-claro);
+      font-size: 1.1rem;
+    }
+
+    .resultado {
+      background-color: #111;
+      padding: 20px;
+      border-left: 5px solid var(--verde);
+      border-radius: 8px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .resultado h3 {
+      margin-top: 0;
+      color: var(--verde);
+      font-size: 1.7rem;
+    }
+
+    .resultado p, a {
+      font-size: 1.1rem;
+      color: var(--texto-suave);
+      line-height: 1.6;
+    }
+
+    .justificado {
+      text-align: justify;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--verde);
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      h2 {
+        font-size: 2rem;
+      }
+      .resultado h3 {
+        font-size: 1.5rem;
+      }
+      input, button {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1.6rem;
+      }
+      .resultado h3 {
+        font-size: 1.3rem;
+      }
+      input, button {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="contenedor">
-    <h1>📘 Manual de Usuario</h1>
+    <img src="logo.png" alt="Logo principal" class="logo-principal">
 
-    <p>Este buscador jurídico-político permite consultar documentos relacionados con sentencias, criterios, artículos y núcleos temáticos asociados a la Jurisdicción Especial para la Paz (JEP).</p>
+    <h2>📚 Matriz Jurídico-Político</h2>
 
-    <h2>🔍 Cómo usar el buscador</h2>
-    <ul>
-      <li>Escribe una palabra clave en el campo de búsqueda.</li>
-      <li>Selecciona una palabra sugerida (opcional) del desplegable.</li>
-      <li>Presiona <strong>Enter</strong> o haz clic en el botón <strong>Buscar</strong>.</li>
-    </ul>
+    <input type="text" id="busqueda" placeholder="🔍 Escribe una palabra clave..." list="palabrasClaves" autocomplete="off">
+    <datalist id="palabrasClaves"></datalist>
+    <div id="sugerencias" class="autocomplete-suggestions"></div>
+    <button id="botonBuscar" onclick="buscar()">Buscar</button>
 
-    <h2>📄 Visualización de resultados</h2>
-    <p>Los resultados incluyen información como:</p>
-    <ul>
-      <li><strong>Tipo</strong>: tipo de documento (ej. Sentencia).</li>
-      <li><strong>Tema</strong>, <strong>título</strong> y <strong>subtítulo</strong>.</li>
-      <li><strong>Cita textual</strong>: fragmento clave que se puede expandir con "Ver más...".</li>
-      <li><strong>Enlace</strong>: acceso directo al documento original en el sitio de la Corte Constitucional.</li>
-    </ul>
+    <div id="ultimaFecha" style="text-align: center; color: #aaa; margin: 10px 0; font-size: 0.95rem;">
+      Última actualización: <span id="fechaTexto">cargando...</span>
+    </div>
 
-    <h2>🛠️ Actualización de datos</h2>
-    <p>Los datos se obtienen de una hoja de cálculo gestionada por el equipo técnico. La fecha de última actualización se muestra debajo del campo de búsqueda.</p>
+    <div id="resultados"></div>
 
-    <h2>✉️ Soporte</h2>
-    <p>Para reportar errores o sugerencias, escribe a <a href="mailto:contacto@ejemplo.com">contacto@ejemplo.com</a>.</p>
-
-    <a href="index.html" class="boton-volver">⬅️ Volver al buscador</a>
+    <div class="enlace-manual">
+      <a href="manual.html" target="_blank" class="boton-manual" title="Manual de Usuario" style="color: #5c782a;">📘 Manual del Usuario</a>
+    </div>
   </div>
+
+  <footer style="margin-top: auto; width: 100%; background-color: #000; padding: 10% 20%; text-align: center; color: #ccc; font-size: 0.9rem;">
+    <div class="contenedor" style="max-width: 900px; margin: auto;">
+      <p>&copy; 2025 Buscador Jurídico-Político. Todos los derechos reservados.</p>
+      <p>Desarrollado por el equipo de CAPSTORY y Política: Fortalecimiento de los procedimientos para la adopción de las medidas de protección a las víctimas testigos y demás intervinientes con ocasión a la implementación del acuerdo de paz a cargo del grupo de protección de la unidad de investigación acusación de la justicia especial para la paz</p>
+      <p>Creadores:</p>
+      <p>
+        Cabrera Nossa Irene Alejandra – Directora<br>
+        Bello Torres David Esteban<br>
+        García Rodrigues Giovanny Andrés<br>
+        Naranjo Velandia Jorge Alfredo<br>
+        Prieto Garzón Sanduver<br>
+        Duarte Galindo Miguel<br>
+        Villamizar Villamizar Dehivy
+      </p>
+      <p><a href="mailto:contacto@ejemplo.com" style="color: #5c782a;">✉️ contacto@ejemplo.com</a></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const FECHA_API_URL = 'https://script.google.com/macros/s/AKfycbyZrl9ZfmqSa9BBJKmCVr9nUhfzwFLbM-32jIR16GabkWvHnzuWT8BUpN6WHGEeOOSmpQ/exec?fecha=true';
+
+    async function cargarFechaUltimaActualizacion() {
+      try {
+        const res = await fetch(FECHA_API_URL);
+        const data = await res.json();
+        const fecha = new Date(data.ultimaActualizacion);
+        const formateada = fecha.toLocaleString('es-CO', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        document.getElementById('fechaTexto').textContent = formateada;
+      } catch (error) {
+        document.getElementById('fechaTexto').textContent = 'Error al cargar fecha';
+        console.error('Error al obtener fecha de actualización:', error);
+      }
+    }
+
+    cargarFechaUltimaActualizacion();
+  </script>
 </body>
 </html>
